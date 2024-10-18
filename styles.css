@@ -1,0 +1,30 @@
+. {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+div.btn-container {
+width: 100%;
+display: flex;
+justify-content: center;
+}
+
+button.start-btn {
+    font-size: 25px;
+    width: 250px;
+    height: 60px;
+    border-radius: 10px;
+
+}
+
+div.game-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+}
+
+div.cell {
+    size: 100%;
+    border: 3px solid black;
+}
