@@ -5,12 +5,23 @@
 }
 
 div.btn-container {
-width: 100%;
-display: flex;
-justify-content: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
-button.start-btn {
+div.players {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 85px;
+    margin-top: 20px;
+
+
+}
+
+button.start-btn, button.restart-btn {
     font-size: 25px;
     width: 250px;
     height: 60px;

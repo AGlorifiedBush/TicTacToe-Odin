@@ -2,7 +2,10 @@
 
     var gbObj = {
 
-        gameboard: [], 
+        gameboard: ["", "", "", "", "", "", "", "", ""],
+        players: [],
+        currentPlayerIndex: 0,
+        endGame: false, 
 
         init: function(){
             this.cacheDom();
@@ -12,12 +15,14 @@
         cacheDom: function(){
             this.startBtn = document.getElementById("startBtn");
             this.gb = document.getElementById("game-board");
-            this.template = document.getElementById("template")
+            this.restart = document.getElementById("restart");
+            this.player1 = document.getElementById("player1").value;
+            this.player2 = document.getElementById("player2").value;
         },
 
         bindEvents: function(){
-            this.startBtn.addEventListener("click", this.buildGb);
-            
+            this.startBtn.addEventListener("click", this.startGame);
+            //this.resartBtn.addEventListener("click", this.restartGame)
         },
 
         render: function(){
@@ -26,14 +31,30 @@
         },
 
         buildGb: function(){
-            for (let i=0; i < 9; i++) {
-              let cell = this.template
-              //push not working trying to figure out why
-               this.gameboard.push(cell)
-
-            }
+            let gbHTML = ""
+            this.gameboard.forEach((cell, index) => {
+                boardHTML += `<div class="cell" id=cell-${index}>${cell}</div>`
+            })
             gbObj.render();
         },
+
+        createPlayer: function(name, symbol){
+            return {
+                name,
+                symbol
+            }
+        },
+
+        startGame: function(){
+            let players = [
+                this.createPlayer(this.player1, "X"),
+                this.createPlayer(this.player2, "O")
+            ]
+
+            this.buildGb()
+        },
+        
+    
     };
 
     gbObj.init()
