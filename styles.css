@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 
 div.btn-container {
@@ -17,8 +18,6 @@ div.players {
     justify-content: center;
     gap: 85px;
     margin-top: 20px;
-
-
 }
 
 button.start-btn, button.restart-btn {
@@ -31,11 +30,21 @@ button.start-btn, button.restart-btn {
 
 div.game-board {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 0fr 0fr 0fr;
     gap: 0;
+    margin-top: 20px;
+    padding: 0;
+    justify-content: center;
+    
+    
 }
 
 div.cell {
-    size: 100%;
+    height: 200px;
+    width: 200px;
     border: 3px solid black;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 180px;
 }

@@ -1,64 +1,88 @@
-(function() {
+const Gameboard = (() => {
+    let gameboard = ["", "", "", "", "", "", "", "", ""]
 
-    var gbObj = {
+    const render = () => {
+        let gbHTML = "";
+        gameboard.forEach((cell, index) => {
+            gbHTML += `<div class="cell" id="cell-${index}">${cell}</div>`
+        });
+        document.querySelector("#game-board").innerHTML = gbHTML;
+        const cells = document.querySelectorAll(".cell")
+        cells.forEach((cell) =>{
+            cell.addEventListener("click", Game.makeMove);
+        })
+    }
 
-        gameboard: ["", "", "", "", "", "", "", "", ""],
-        players: [],
-        currentPlayerIndex: 0,
-        endGame: false, 
+    const update = (index, value) => {
+        gameboard[index] = value;
+        render();
+    }
 
-        init: function(){
-            this.cacheDom();
-            this.bindEvents();
-            this.render();
-        },
-        cacheDom: function(){
-            this.startBtn = document.getElementById("startBtn");
-            this.gb = document.getElementById("game-board");
-            this.restart = document.getElementById("restart");
-            this.player1 = document.getElementById("player1").value;
-            this.player2 = document.getElementById("player2").value;
-        },
+    const checkGameboard = () => gameboard;
 
-        bindEvents: function(){
-            this.startBtn.addEventListener("click", this.startGame);
-            //this.resartBtn.addEventListener("click", this.restartGame)
-        },
+    return {
+        render,
+        update,
+        checkGameboard,
+    }
+})();
 
-        render: function(){
-            this.gb.append(this.gameboard);
-            
-        },
+const createPlayer = (name, symbol) => {
+    return {
+        name,
+        symbol
+    }
+}
 
-        buildGb: function(){
-            let gbHTML = ""
-            this.gameboard.forEach((cell, index) => {
-                boardHTML += `<div class="cell" id=cell-${index}>${cell}</div>`
-            })
-            gbObj.render();
-        },
+const Game = (() => {
+    let players = [];
+    let currentPlayerIndex;
+    let gameEnd;
 
-        createPlayer: function(name, symbol){
-            return {
-                name,
-                symbol
-            }
-        },
+    const start = () => {
+        players = [
+            createPlayer(document.querySelector("#player1").value, "X"),
+            createPlayer(document.querySelector("#player2").value, "O")
+        ]
+        currentPlayerIndex = 0;
+        gameEnd = false;
+        Gameboard.render();
+        const cells = document.querySelectorAll(".cell")
+        cells.forEach((cell) =>{
+            cell.addEventListener("click", makeMove);
+        })
+    }
 
-        startGame: function(){
-            let players = [
-                this.createPlayer(this.player1, "X"),
-                this.createPlayer(this.player2, "O")
-            ]
+    const restart = () => {
+        for (let i = 0; i < 9; i++) {
+            Gameboard.update(i, "");
+        }
+        Gameboard.render();
+    }
 
-            this.buildGb()
-        },
-        
-    
-    };
+    const makeMove = (event) => {
+        let index = parseInt(event.target.id.split("-")[1]);
+        if(Gameboard.checkGameboard()[index] !== "") {
+            return
+        }
+        Gameboard.update(index, players[currentPlayerIndex].symbol)
+        currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+    }
 
-    gbObj.init()
+    return {
+        start,
+        restart,
+        makeMove,
+    }
 
-}) ()
+})();
 
-//May be a good Idea to build the board seperate from the array then find a way to connect space in the board to the array
+const startBtn = document.getElementById("startBtn");
+startBtn.addEventListener("click", () => {
+    Game.start();
+})
+
+const restartBtn = document.getElementById("restartBtn")
+restartBtn.addEventListener("click", () => {
+    Game.restart();
+})
